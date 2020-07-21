@@ -33,6 +33,7 @@ import com.heinrichreimersoftware.materialintro.slide.SimpleSlide
         addSlide(FragmentSlide.Builder()
             .background(android.R.color.white)
             .fragment(R.layout.intro_4)
+            .canGoForward(false)
             .build());
 
     }
