@@ -1,15 +1,11 @@
-  package com.android.organizze
+  package com.android.organizze.activity
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import com.android.organizze.activity.CadastroActivity
-import com.android.organizze.activity.LoginActivity
+import com.android.organizze.R
 import com.heinrichreimersoftware.materialintro.app.IntroActivity
 import com.heinrichreimersoftware.materialintro.slide.FragmentSlide
-import com.heinrichreimersoftware.materialintro.slide.SimpleSlide
 
   class MainActivity : IntroActivity() {
 
