@@ -15,6 +15,9 @@ import com.android.organizze.config.FireBaseConfig
 import com.android.organizze.model.Usuario
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 
 class CadastroActivity : AppCompatActivity() {
 
@@ -44,11 +47,26 @@ class CadastroActivity : AppCompatActivity() {
 
                 autenticacao.createUserWithEmailAndPassword(usuario.email, usuario.senha)
                     .addOnCompleteListener(this){task ->
-                        if(task.isComplete) {
+                        if(task.isSuccessful) {
                             Toast.makeText(this, "Usuário cadastrado com sucesso.", Toast.LENGTH_LONG).show();
 
                         } else {
-                            Toast.makeText(this, "Ocorreu um erro ao salvar o usuário", Toast.LENGTH_LONG).show();
+                            var excecao : String = "";
+                            try {
+                                throw task.exception!!
+
+                            } catch(e : FirebaseAuthWeakPasswordException) {
+                                excecao = "Digite uma senha mais forte!";
+                            } catch(e : FirebaseAuthInvalidCredentialsException) {
+                                excecao = "Por favor, digite um e-mail válido";
+                            } catch (e : FirebaseAuthUserCollisionException) {
+                                excecao = "Este e-mail já foi cadastrado";
+                            } catch (e : Exception) {
+                                excecao = "Erro ao cadastrar usário ${e.message}";
+                            }
+
+                            Toast.makeText(this, excecao, Toast.LENGTH_LONG).show();
+
                         }
                     }
 
