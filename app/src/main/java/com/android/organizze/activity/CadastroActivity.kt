@@ -1,20 +1,16 @@
 package com.android.organizze.activity
 
-import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import androidx.appcompat.content.res.AppCompatResources
 import com.android.organizze.R
 import com.android.organizze.config.FireBaseConfig
 import com.android.organizze.model.Usuario
 import com.android.organizze.util.Utils
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
@@ -44,7 +40,7 @@ class CadastroActivity : AppCompatActivity() {
         //Ação botão Cadastrar
         buttonCadastrar.setOnClickListener(View.OnClickListener {
 
-            if(isUsuarioValido()) {
+            if(formularioValido()) {
                 autenticacao =  FireBaseConfig.autenticacao;
 
                 autenticacao.createUserWithEmailAndPassword(usuario.email, usuario.senha)
@@ -78,7 +74,7 @@ class CadastroActivity : AppCompatActivity() {
 
     }
 
-    private fun isUsuarioValido() : Boolean {
+    private fun formularioValido() : Boolean {
         val nome  : String = editTextNome.text.toString().trim();
         val email : String = editTextEmail.text.toString().trim();
         val senha : String = editTextSenha.text.toString().trim();
@@ -97,5 +93,5 @@ class CadastroActivity : AppCompatActivity() {
 
         return true
     }
-       
+
 }
