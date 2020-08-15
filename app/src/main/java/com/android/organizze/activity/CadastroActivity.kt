@@ -13,6 +13,7 @@ import androidx.appcompat.content.res.AppCompatResources
 import com.android.organizze.R
 import com.android.organizze.config.FireBaseConfig
 import com.android.organizze.model.Usuario
+import com.android.organizze.util.Utils
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
@@ -38,6 +39,7 @@ class CadastroActivity : AppCompatActivity() {
         editTextSenha = findViewById(R.id.editTextSenha);
         buttonCadastrar = findViewById(R.id.buttonCadastrar);
 
+        editTextNome.requestFocus();
 
         //Ação botão Cadastrar
         buttonCadastrar.setOnClickListener(View.OnClickListener {
@@ -83,25 +85,17 @@ class CadastroActivity : AppCompatActivity() {
 
         usuario = Usuario(nome, email, senha);
         if(TextUtils.isEmpty(usuario.nome)) {
-            exibeMensagemError(editTextNome, "O nome é obrigatório")
+            Utils.exibeMensagemError(this, editTextNome, "O nome é obrigatório");
             return false;
         }else if(TextUtils.isEmpty(usuario.email)) {
-            exibeMensagemError(editTextEmail, "O email é obrigatório")
+            Utils.exibeMensagemError(this, editTextEmail, "O email é obrigatório");
             return false;
         }else if(TextUtils.isEmpty(usuario.senha)) {
-            exibeMensagemError(editTextSenha, "A senha é obrigatória");
+            Utils.exibeMensagemError(this, editTextSenha, "A senha é obrigatória");
             return false;
         }
 
         return true
     }
-
-    //Exibe mensagem de Erro
-    private fun exibeMensagemError(campo : EditText, mensagem : String?) {
-        val icon = AppCompatResources.getDrawable(this, R.drawable.ic_error_red_24dp);
-        icon?.setBounds(0,0, icon.intrinsicWidth, icon.intrinsicHeight);
-
-        campo.setError(mensagem, icon);
-        campo.requestFocus();
-    }
+       
 }
