@@ -1,5 +1,6 @@
 package com.android.organizze.activity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
@@ -47,7 +48,7 @@ class LoginActivity : AppCompatActivity() {
                     .addOnCompleteListener { task: Task<AuthResult> ->
 
                         if(task.isSuccessful) {
-                            Toast.makeText(this, "Sucesso ao fazer Login", Toast.LENGTH_LONG).show()
+                           exibirTelaPrincipal();
                         } else {
                             var excecao : String = ""
                             try {
@@ -82,5 +83,11 @@ class LoginActivity : AppCompatActivity() {
 
         usuario = Usuario("" , email, senha);
         return true;
+    }
+
+    private fun exibirTelaPrincipal() {
+        val intent = Intent(this, PrincipalActivity::class.java);
+        startActivity(intent);
+        finish();
     }
 }

@@ -46,7 +46,7 @@ class CadastroActivity : AppCompatActivity() {
                 autenticacao.createUserWithEmailAndPassword(usuario.email, usuario.senha)
                     .addOnCompleteListener(this){task ->
                         if(task.isSuccessful) {
-                            Toast.makeText(this, "Usuário cadastrado com sucesso.", Toast.LENGTH_LONG).show();
+                            finish();
 
                         } else {
                             var excecao : String = "";

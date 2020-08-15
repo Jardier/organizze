@@ -4,10 +4,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import com.android.organizze.R
+import com.android.organizze.config.FireBaseConfig
+import com.google.firebase.auth.FirebaseAuth
 import com.heinrichreimersoftware.materialintro.app.IntroActivity
 import com.heinrichreimersoftware.materialintro.slide.FragmentSlide
 
   class MainActivity : IntroActivity() {
+
+      private lateinit var autenticacao : FirebaseAuth;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -15,6 +19,8 @@ import com.heinrichreimersoftware.materialintro.slide.FragmentSlide
 
         isButtonBackVisible = false;
         isButtonNextVisible = false;
+
+        autenticacao = FireBaseConfig.autenticacao;
 
         addSlide(FragmentSlide.Builder()
             .background(android.R.color.white)
@@ -51,5 +57,16 @@ import com.heinrichreimersoftware.materialintro.slide.FragmentSlide
       public fun btCadastrar(view: View) {
           val intent = Intent(this, CadastroActivity::class.java);
           startActivity(intent);
+      }
+
+      override fun onStart() {
+          super.onStart()
+          verificarUsuarioLogado();
+      }
+      private fun verificarUsuarioLogado() {
+          if(autenticacao.currentUser != null) {
+              val intent = Intent(this, PrincipalActivity::class.java);
+              startActivity(intent);
+          }
       }
 }
