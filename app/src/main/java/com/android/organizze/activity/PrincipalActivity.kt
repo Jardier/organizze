@@ -1,5 +1,6 @@
 package com.android.organizze.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -23,10 +24,10 @@ class PrincipalActivity : AppCompatActivity() {
     }
 
     public fun adicionarDespesa(view: View) {
-        Toast.makeText(this,"Adicionar Despesa", Toast.LENGTH_LONG).show();
+        startActivity(Intent(this, DespesaActivity::class.java));
     }
 
     public fun adicionarReceita(view: View) {
-        Toast.makeText(this,"Adicionar Receita", Toast.LENGTH_LONG).show();
+        startActivity(Intent(this, ReceitaActivity::class.java));
     }
 }
