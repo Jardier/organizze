@@ -11,7 +11,7 @@ import android.widget.Toast
 import com.android.organizze.R
 import com.android.organizze.config.FireBaseConfig
 import com.android.organizze.model.Usuario
-import com.android.organizze.helper.Utils
+import com.android.organizze.helper.MensageCustom
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
@@ -74,10 +74,10 @@ class LoginActivity : AppCompatActivity() {
         val senha : String = editTextSenha.text.toString().trim();
 
         if(TextUtils.isEmpty(email)) {
-            Utils.exibeMensagemError(this, editTextEmail, "O email é obrigatório");
+            MensageCustom.error(this, editTextEmail, "O email é obrigatório");
             return false;
         }else if(TextUtils.isEmpty(senha)) {
-            Utils.exibeMensagemError(this, editTextSenha, "A senha é obrigatória");
+            MensageCustom.error(this, editTextSenha, "A senha é obrigatória");
             return false;
         }
 
