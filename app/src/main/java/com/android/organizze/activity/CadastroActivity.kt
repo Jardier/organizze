@@ -9,8 +9,9 @@ import android.widget.EditText
 import android.widget.Toast
 import com.android.organizze.R
 import com.android.organizze.config.FireBaseConfig
+import com.android.organizze.helper.Base64Custom
 import com.android.organizze.model.Usuario
-import com.android.organizze.util.Utils
+import com.android.organizze.helper.Utils
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
@@ -46,6 +47,9 @@ class CadastroActivity : AppCompatActivity() {
                 autenticacao.createUserWithEmailAndPassword(usuario.email, usuario.senha)
                     .addOnCompleteListener(this){task ->
                         if(task.isSuccessful) {
+                            val idUsuario = Base64Custom.codificarBase64(usuario.email);
+                            usuario.idUsuario = idUsuario;
+                            usuario.salvar();
                             finish();
 
                         } else {
@@ -79,7 +83,8 @@ class CadastroActivity : AppCompatActivity() {
         val email : String = editTextEmail.text.toString().trim();
         val senha : String = editTextSenha.text.toString().trim();
 
-        usuario = Usuario(nome, email, senha);
+        usuario = Usuario(nome = nome, email = email, senha = senha);
+
         if(TextUtils.isEmpty(usuario.nome)) {
             Utils.exibeMensagemError(this, editTextNome, "O nome é obrigatório");
             return false;

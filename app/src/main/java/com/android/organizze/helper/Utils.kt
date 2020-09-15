@@ -1,4 +1,4 @@
-package com.android.organizze.util
+package com.android.organizze.helper
 
 import android.content.Context
 import android.widget.EditText

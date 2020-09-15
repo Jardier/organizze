@@ -11,7 +11,7 @@ import android.widget.Toast
 import com.android.organizze.R
 import com.android.organizze.config.FireBaseConfig
 import com.android.organizze.model.Usuario
-import com.android.organizze.util.Utils
+import com.android.organizze.helper.Utils
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
@@ -81,7 +81,7 @@ class LoginActivity : AppCompatActivity() {
             return false;
         }
 
-        usuario = Usuario("" , email, senha);
+        usuario = Usuario(email = email, senha = senha);
         return true;
     }
 
