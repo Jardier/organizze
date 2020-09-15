@@ -19,13 +19,13 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <EditText
-            android:id="@+id/editText2"
+            android:id="@+id/editTextValor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:background="@android:color/transparent"
             android:ems="10"
-            android:gravity="right"
+            android:gravity="right|end"
             android:inputType="numberDecimal"
             android:text="R$ 00.00"
             android:textColor="@android:color/white"
@@ -48,6 +48,7 @@
         app:layout_constraintVertical_chainStyle="packed">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/inputEditTextData"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Data" />
@@ -67,9 +68,10 @@
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout5">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/inputEditTextCategoria"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Salário" />
+            android:hint="Categoria" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -86,13 +88,14 @@
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout4">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/inputEditTextDescricao"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Salário Mensal" />
+            android:hint="Descrição" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton"
+        android:id="@+id/fabSalvar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
