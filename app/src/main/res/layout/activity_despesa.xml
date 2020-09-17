@@ -26,8 +26,8 @@
             android:background="@android:color/transparent"
             android:ems="10"
             android:gravity="right|end"
+            android:hint="R$ 0.00"
             android:inputType="numberDecimal"
-            android:text="R$ 00.00"
             android:textColor="@android:color/white"
             android:textSize="30sp" />
     </LinearLayout>
