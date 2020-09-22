@@ -15,6 +15,8 @@ data class Usuario constructor( var idUsuario: String = ""
                               , var receitaTotal : Double = 0.00 ) {
 
     companion object {
+        const val PATH = "usuarios";
+
         /**
          * Retorna o email do Usuário na Base64
          */
@@ -24,8 +26,6 @@ data class Usuario constructor( var idUsuario: String = ""
 
             return  idUsuario;
         }
-
-        const val PATH = "usuarios";
     }
 
     fun salvar() {
@@ -56,6 +56,23 @@ data class Usuario constructor( var idUsuario: String = ""
                     Log.w(Usuario.PATH, "Total depesa atualizado com sucesso");
                 } else {
                     Log.e(Usuario.PATH, "Ocorreu um erro ao autializar o Total de despesa", task.exception);
+                    throw task.exception!!;
+                }
+            }
+    }
+
+    fun atualizarReceita(valor : Double) {
+        val dataBase = FireBaseConfig.reference;
+
+        dataBase.child(Usuario.PATH)
+            .child(Usuario.getIdUsuario())
+            .child("receitaTotal").setValue(valor)
+            .addOnCompleteListener { task ->
+
+                if(task.isSuccessful) {
+                    Log.w(Usuario.PATH, "Total receita atualizado com sucesso");
+                } else {
+                    Log.e(Usuario.PATH, "Ocorreu um erro ao autializar o Total de receita", task.exception);
                     throw task.exception!!;
                 }
             }

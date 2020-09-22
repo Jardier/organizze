@@ -16,7 +16,7 @@ class Movimentacao constructor(
     companion object{
         const val DESPESA = "DESPESA";
         const val RECEITA = "RECEITA";
-        const val PATH = "movimnetacoes";
+        const val PATH = "movimentacoes";
     }
 
     fun salvar() {
