@@ -8,6 +8,11 @@
 > Tópicos abordados nesse projeto:
 - Slider
 - Firebase Authentication
+    - Criando usuário (email/senha)
+- Firebase Realtime Database
+- Validação de campos
 - Exception
+- Floating Action Menu
+- Codificando e Decodificando com Base64
 
 
