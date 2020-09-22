@@ -5,7 +5,7 @@ import android.widget.EditText
 import androidx.appcompat.content.res.AppCompatResources
 import com.android.organizze.R
 
-class MensageCustom {
+class MessageCustom {
 
 
     companion object {

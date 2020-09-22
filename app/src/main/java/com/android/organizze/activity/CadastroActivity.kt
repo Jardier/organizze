@@ -11,7 +11,7 @@ import com.android.organizze.R
 import com.android.organizze.config.FireBaseConfig
 import com.android.organizze.helper.Base64Custom
 import com.android.organizze.model.Usuario
-import com.android.organizze.helper.MensageCustom
+import com.android.organizze.helper.MessageCustom
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
@@ -86,13 +86,13 @@ class CadastroActivity : AppCompatActivity() {
         usuario = Usuario(nome = nome, email = email, senha = senha);
 
         if(TextUtils.isEmpty(usuario.nome)) {
-            MensageCustom.error(this, editTextNome, "O nome é obrigatório");
+            MessageCustom.error(this, editTextNome, "O nome é obrigatório");
             return false;
         }else if(TextUtils.isEmpty(usuario.email)) {
-            MensageCustom.error(this, editTextEmail, "O email é obrigatório");
+            MessageCustom.error(this, editTextEmail, "O email é obrigatório");
             return false;
         }else if(TextUtils.isEmpty(usuario.senha)) {
-            MensageCustom.error(this, editTextSenha, "A senha é obrigatória");
+            MessageCustom.error(this, editTextSenha, "A senha é obrigatória");
             return false;
         }
 
