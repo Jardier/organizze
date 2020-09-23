@@ -43,16 +43,18 @@ class ReceitaActivity : AppCompatActivity() {
         inputEditTextDescricao = findViewById(R.id.inputEditTextDescricao);
         fabSalvar = findViewById(R.id.fabSalvar);
 
-        receitaTotal = recuperarReceitaTotal();
+        recuperarReceitaTotal();
 
         fabSalvar.setOnClickListener {
 
             if(formularioValido()) {
                 try {
                     movimentacao.salvar();
-                    receitaTotal += movimentacao.valor;
 
+                    receitaTotal += movimentacao.valor;
                     usuario.atualizarReceita(receitaTotal);
+
+                    finish();
 
                 } catch (e : Exception) {
                     Toast.makeText(this, "Ocorreu um erro ao salvar a movimentação: ${e.message}", Toast.LENGTH_LONG).show();
@@ -93,22 +95,19 @@ class ReceitaActivity : AppCompatActivity() {
         return true;
     }
 
-    private fun recuperarReceitaTotal() : Double {
-        var total : Double = 0.00;
+    private fun recuperarReceitaTotal() {
         FireBaseConfig.reference.child(Usuario.PATH)
                       .child(Usuario.getIdUsuario())
                       .addValueEventListener(object : ValueEventListener{
 
                           override fun onDataChange(dataSnapshot: DataSnapshot) {
                               usuario = dataSnapshot.getValue<Usuario>(Usuario::class.java)!!;
-                              total = usuario?.receitaTotal ?: 0.00;
+                              receitaTotal = usuario?.receitaTotal ?: 0.00;
                           }
 
                           override fun onCancelled(databaseError: DatabaseError) {
                               Log.e("ERROR", databaseError.message);
                           }
                       })
-
-        return total;
     }
 }

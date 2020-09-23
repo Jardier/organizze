@@ -2,7 +2,6 @@ package com.android.organizze.model
 
 import android.util.Log
 import com.android.organizze.config.FireBaseConfig
-import com.android.organizze.helper.Base64Custom
 import com.android.organizze.helper.DateCustom
 
 class Movimentacao constructor(
@@ -30,7 +29,7 @@ class Movimentacao constructor(
                 .setValue(this)
                 .addOnCompleteListener { task ->
                     if(task.isSuccessful) {
-                        Log.w(Movimentacao.PATH, "Movimnetação salva com sucesso");
+                        Log.w(Movimentacao.PATH, "Movimentação salva com sucesso");
 
                     } else {
                         Log.w(Movimentacao.PATH, task.exception.toString());

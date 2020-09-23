@@ -46,8 +46,7 @@ class DespesaActivity : AppCompatActivity() {
 
         editTextValor.requestFocus();
 
-        //Recuperando despesa
-        despesaTotal =  recuperarDespesaTotal();
+        recuperarDespesaTotal();
 
         fabSalva.setOnClickListener { v: View? -> 
            
@@ -55,9 +54,11 @@ class DespesaActivity : AppCompatActivity() {
 
              try {
                  movimentacao.salvar();
-                 despesaTotal = despesaTotal + movimentacao.valor;
 
+                 despesaTotal = despesaTotal + movimentacao.valor;
                  usuario.atualizarDepesa(despesaTotal);
+
+                 finish();
 
              } catch (e : Exception){
                  Toast.makeText(this, "Ocorreu um erro ao salvar a movimentação: ${e.message}", Toast.LENGTH_LONG).show();
@@ -71,7 +72,9 @@ class DespesaActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         inputEditTextData.setText(DateCustom.dataAtual());
+
     }
+
 
     private fun formularioValido() : Boolean {
         val valor : String   =  editTextValor.text.toString().trim();
@@ -97,23 +100,19 @@ class DespesaActivity : AppCompatActivity() {
         return true;
     }
 
-    private fun recuperarDespesaTotal() : Double {
-        var total : Double = 0.00;
+    private fun recuperarDespesaTotal() {
 
         FireBaseConfig.reference.child(Usuario.PATH)
             .child(Usuario.getIdUsuario())
             .addValueEventListener(object : ValueEventListener{
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     usuario = dataSnapshot.getValue<Usuario>(Usuario::class.java)!!;
-                    total = usuario?.despesaTotal ?: 0.00;
+                    despesaTotal = usuario?.despesaTotal ?: 0.00;
                 }
 
                 override fun onCancelled(databaseError: DatabaseError) {
                     Log.e("ERROR", databaseError.message);
                 }
             })
-
-
-        return total;
     }
 }

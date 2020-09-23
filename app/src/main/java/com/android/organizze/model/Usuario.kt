@@ -53,7 +53,7 @@ data class Usuario constructor( var idUsuario: String = ""
             .addOnCompleteListener { task ->
 
                 if(task.isSuccessful) {
-                    Log.w(Usuario.PATH, "Total depesa atualizado com sucesso");
+                    Log.w(Usuario.PATH, "Total depesa atualizado com sucesso. Total ${valor}");
                 } else {
                     Log.e(Usuario.PATH, "Ocorreu um erro ao autializar o Total de despesa", task.exception);
                     throw task.exception!!;
