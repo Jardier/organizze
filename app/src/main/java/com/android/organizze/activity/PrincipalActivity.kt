@@ -13,6 +13,7 @@ import com.android.organizze.config.FireBaseConfig
 import com.android.organizze.model.Usuario
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView
 import com.prolificinteractive.materialcalendarview.OnMonthChangedListener
@@ -26,12 +27,18 @@ class PrincipalActivity : AppCompatActivity() {
     lateinit var textViewSaudacao: TextView;
     lateinit var textViewSaldo: TextView;
 
+    lateinit var dataBase: DatabaseReference;
+    lateinit var usuarioEventListener: ValueEventListener;
+
     var usuarioConsulta : Usuario = Usuario();
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_principal)
         setSupportActionBar(toolbar)
+
+        supportActionBar?.title = "Organizze";
 
       /*  fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
@@ -43,7 +50,18 @@ class PrincipalActivity : AppCompatActivity() {
         calendarView = findViewById(R.id.calendarView);
 
         configurarCalendarView();
+    }
+
+    override fun onStart() {
+        super.onStart();
         recuperarResumo();
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+        Log.i("Evento", "O Evento foi removido.");
+        dataBase.removeEventListener(usuarioEventListener);
     }
 
     //Inserindo o menu
@@ -86,11 +104,13 @@ class PrincipalActivity : AppCompatActivity() {
         var saldo : Double = 0.00;
         val decimalFormat = DecimalFormat("0.00");
 
-        val dataBase = FireBaseConfig.reference;
+        dataBase = FireBaseConfig.reference
+                .child(Usuario.PATH)
+                .child(Usuario.getIdUsuario());
 
-        dataBase.child(Usuario.PATH)
-            .child(Usuario.getIdUsuario())
-            .addValueEventListener(object : ValueEventListener{
+
+        Log.i("Evento", "O Evento foi adicionado.");
+        usuarioEventListener = dataBase.addValueEventListener(object : ValueEventListener{
 
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     usuarioConsulta = dataSnapshot.getValue<Usuario>(Usuario::class.java)!!;
