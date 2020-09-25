@@ -47,4 +47,6 @@ dependencies {
     implementation 'com.heinrichreimersoftware:material-intro:master-SNAPSHOT'
     implementation 'com.github.clans:fab:1.6.4'
     implementation 'com.github.prolificinteractive:material-calendarview:1.4.3'
+
+    implementation 'androidx.cardview:cardview:1.0.0'
 }

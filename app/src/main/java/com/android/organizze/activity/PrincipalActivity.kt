@@ -6,10 +6,17 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Adapter
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.android.organizze.R
+import com.android.organizze.adapter.AdapterMovimentacao
 import com.android.organizze.config.FireBaseConfig
+import com.android.organizze.model.Movimentacao
 import com.android.organizze.model.Usuario
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -26,12 +33,13 @@ class PrincipalActivity : AppCompatActivity() {
     lateinit var calendarView: MaterialCalendarView;
     lateinit var textViewSaudacao: TextView;
     lateinit var textViewSaldo: TextView;
+    lateinit var recyclerViewMovimentacoes: RecyclerView;
 
     lateinit var dataBase: DatabaseReference;
     lateinit var usuarioEventListener: ValueEventListener;
+    lateinit var movimentacoes : List<Movimentacao>;
 
     var usuarioConsulta : Usuario = Usuario();
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,8 +56,19 @@ class PrincipalActivity : AppCompatActivity() {
         textViewSaudacao = findViewById(R.id.textViewSaudacao);
         textViewSaldo = findViewById(R.id.textViewSaldo);
         calendarView = findViewById(R.id.calendarView);
+        recyclerViewMovimentacoes = findViewById(R.id.recyclerMovimentacoes);
 
         configurarCalendarView();
+
+
+        //criar um adapter
+        val adapterMovimento = AdapterMovimentacao(movimentacoes)
+
+        //configurar o recycleview
+        recyclerViewMovimentacoes.layoutManager = LinearLayoutManager(this);
+        recyclerViewMovimentacoes.setHasFixedSize(true);
+        recyclerViewMovimentacoes.addItemDecoration(DividerItemDecoration(this, LinearLayout.VERTICAL));
+        recyclerViewMovimentacoes.adapter = adapterMovimento;
     }
 
     override fun onStart() {
