@@ -1,5 +1,6 @@
 package com.android.organizze.activity
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +9,8 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -178,6 +181,7 @@ class PrincipalActivity : AppCompatActivity() {
                 dataSnapshot.children.forEach { dataSnapshot ->
                     var movimentacao: Movimentacao = Movimentacao();
                     movimentacao = dataSnapshot.getValue<Movimentacao>(Movimentacao::class.java)!!;
+                    movimentacao.key = dataSnapshot.key;
 
                     movimentacoes.add(movimentacao);
 
@@ -218,10 +222,54 @@ class PrincipalActivity : AppCompatActivity() {
                 }
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    Log.i("swipe", "Item foi arrastado");
+                    removerMovimentacao(viewHolder);
                 }
              };
              ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerViewMovimentacoes);
         }
+
+    private fun removerMovimentacao(viewHolder: RecyclerView.ViewHolder) {
+        val position = viewHolder.adapterPosition;
+        val movimentoRemover = movimentacoes.get(position);
+
+        val builder = AlertDialog.Builder(this);
+        builder.setTitle("Excluir Movimentação da Conta");
+        builder.setMessage("Você tem certeza que deseja excluir a movimentação?");
+
+        builder.setPositiveButton("SIM", DialogInterface.OnClickListener{ dialog, which ->
+            dataBase = FireBaseConfig.reference;
+
+            dataBase.child(Movimentacao.PATH)
+                .child(Usuario.getIdUsuario())
+                .child(dataSelecionada)
+                .child(movimentoRemover.key.toString())
+                .removeValue().addOnCompleteListener { task ->
+                    if(task.isSuccessful) {
+                        //Atualizar despesas.
+                        if(movimentoRemover.tipo.equals(Movimentacao.DESPESA)) {
+                            val despesaTotal = usuarioConsulta.despesaTotal - movimentoRemover.valor;
+                            usuarioConsulta.atualizarDepesa(despesaTotal)
+
+                        }else if(movimentoRemover.tipo.equals(Movimentacao.RECEITA)){
+                            val receitaTotal = usuarioConsulta.receitaTotal - movimentoRemover.valor;
+                            usuarioConsulta.atualizarReceita(receitaTotal);
+                        }
+                    } else {
+                        Log.w(Movimentacao.PATH, task.exception.toString());
+                        Toast.makeText(this,"Ocorreu um erro ao remover a movimentação", Toast.LENGTH_LONG).show();
+                    }
+                }
+
+        });
+
+        builder.setNegativeButton("NÃO", DialogInterface.OnClickListener{ dialog, which ->
+            Toast.makeText(this,"Operação cancelada",Toast.LENGTH_LONG).show();
+            recyclerViewMovimentacoes.adapter!!.notifyDataSetChanged();
+
+        });
+        val dialog : AlertDialog = builder.create();
+        dialog.show();
+
+    }
 
 }

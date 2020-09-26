@@ -3,6 +3,7 @@ package com.android.organizze.model
 import android.util.Log
 import com.android.organizze.config.FireBaseConfig
 import com.android.organizze.helper.DateCustom
+import com.google.firebase.database.Exclude
 import java.io.Serializable
 
 class Movimentacao constructor (
@@ -11,6 +12,7 @@ class Movimentacao constructor (
     , var descricao : String = ""
     , var tipo : String = ""
     , var valor : Double = 0.0
+    , @get:Exclude var key : String? = null
 ) : Serializable {
 
     companion object{
