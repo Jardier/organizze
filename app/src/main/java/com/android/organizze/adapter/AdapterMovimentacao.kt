@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.android.organizze.R
 import com.android.organizze.model.Movimentacao
 import kotlinx.android.synthetic.main.adapter_movimentacao.view.*
+import java.text.DecimalFormat
 
 class AdapterMovimentacao(val movimentacoes : List<Movimentacao>) : RecyclerView.Adapter<AdapterMovimentacao.MyViewHolder>() {
 
@@ -29,15 +30,18 @@ class AdapterMovimentacao(val movimentacoes : List<Movimentacao>) : RecyclerView
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        val decimalFormat = DecimalFormat("#,###.00");
+
         val movimentacao = movimentacoes[position];
         holder.titulo.text = movimentacao.descricao;
         holder.categoria.text = movimentacao.categoria;
-        holder.valor.text = movimentacao.valor.toString();
+        holder.valor.text = decimalFormat.format(movimentacao.valor);
+        holder.valor.setTextColor(ContextCompat.getColor(context,R.color.colorAccentReceita))
 
         //Configurando a cor de exibição do valor
         if(movimentacao.tipo.equals(Movimentacao.DESPESA)) {
             holder.valor.setTextColor(ContextCompat.getColor(context,R.color.colorAccent));
-            holder.valor.text = ("- ${movimentacao.valor.toString()}")
+            holder.valor.text = ("-${movimentacao.valor.toString()}")
         }
 
     }

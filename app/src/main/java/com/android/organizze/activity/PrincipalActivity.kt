@@ -10,6 +10,8 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.ItemTouchHelper.Callback
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.organizze.R
@@ -63,6 +65,7 @@ class PrincipalActivity : AppCompatActivity() {
         movimentacoes = ArrayList();
 
         configurarCalendarView();
+        swipe();
 
         //criar um adapter
         val adapterMovimento = AdapterMovimentacao(movimentacoes);
@@ -190,4 +193,35 @@ class PrincipalActivity : AppCompatActivity() {
         })
 
     }
+
+    private fun swipe() {
+        val itemTouchHelperCallback =
+            object :
+                Callback(){
+
+                override fun getMovementFlags(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder
+                ): Int {
+                    val dragsFlags = ItemTouchHelper.ACTION_STATE_IDLE;
+                    val swipeFlags = ItemTouchHelper.START or  ItemTouchHelper.END;
+
+                    return makeMovementFlags(dragsFlags, swipeFlags);
+                }
+
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    target: RecyclerView.ViewHolder
+                ): Boolean {
+                    return false;
+                }
+
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    Log.i("swipe", "Item foi arrastado");
+                }
+             };
+             ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerViewMovimentacoes);
+        }
+
 }

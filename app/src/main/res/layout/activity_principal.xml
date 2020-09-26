@@ -25,13 +25,14 @@
     <include layout="@layout/content_principal" />
 
     <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_margin="10dp"
-        fab:menu_icon="@drawable/ic_adicionar_branco_24dp"
         app:menu_colorNormal="@color/colorAccent"
-        app:menu_colorPressed="@color/colorAccent">
+        app:menu_colorPressed="@color/colorAccent"
+        fab:menu_icon="@drawable/ic_adicionar_branco_24dp">
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/menu_despesa"
@@ -49,10 +50,9 @@
             android:layout_height="wrap_content"
             android:onClick="adicionarReceita"
             android:src="@drawable/ic_adicionar_branco_24dp"
+            app:fab_colorNormal="@color/colorPrimaryDarkReceita"
             fab:fab_label="Receita"
-            fab:fab_size="mini"
-            app:fab_colorNormal="@color/colorPrimaryDarkReceita">
-        </com.github.clans.fab.FloatingActionButton>
+            fab:fab_size="mini"></com.github.clans.fab.FloatingActionButton>
 
     </com.github.clans.fab.FloatingActionMenu>
 
