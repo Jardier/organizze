@@ -1,6 +1,7 @@
 package com.android.organizze.helper
 
 import java.text.SimpleDateFormat
+import java.util.*
 
 class DateCustom {
 
@@ -18,6 +19,11 @@ class DateCustom {
             val mes = dataAux.get(1);
             val ano = dataAux.get(2);
             return mes.plus(ano);
+        }
+
+        fun dataFormatadada(data : Date, pattern : String) : String {
+            val dateFormat = SimpleDateFormat(pattern)
+            return dateFormat.format(data);
         }
     }
 }

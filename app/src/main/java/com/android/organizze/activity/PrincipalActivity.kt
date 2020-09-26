@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Adapter
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -16,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.android.organizze.R
 import com.android.organizze.adapter.AdapterMovimentacao
 import com.android.organizze.config.FireBaseConfig
+import com.android.organizze.helper.DateCustom
 import com.android.organizze.model.Movimentacao
 import com.android.organizze.model.Usuario
 import com.google.firebase.database.DataSnapshot
@@ -37,7 +37,10 @@ class PrincipalActivity : AppCompatActivity() {
 
     lateinit var dataBase: DatabaseReference;
     lateinit var usuarioEventListener: ValueEventListener;
-    lateinit var movimentacoes : List<Movimentacao>;
+    lateinit var movimentoEventListener: ValueEventListener;
+
+    lateinit var movimentacoes: ArrayList<Movimentacao>;
+    lateinit var dataSelecionada: String;
 
     var usuarioConsulta : Usuario = Usuario();
 
@@ -48,7 +51,7 @@ class PrincipalActivity : AppCompatActivity() {
 
         supportActionBar?.title = "Organizze";
 
-      /*  fab.setOnClickListener { view ->
+       /* fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }*/
@@ -57,12 +60,12 @@ class PrincipalActivity : AppCompatActivity() {
         textViewSaldo = findViewById(R.id.textViewSaldo);
         calendarView = findViewById(R.id.calendarView);
         recyclerViewMovimentacoes = findViewById(R.id.recyclerMovimentacoes);
+        movimentacoes = ArrayList();
 
         configurarCalendarView();
 
-
         //criar um adapter
-        val adapterMovimento = AdapterMovimentacao(movimentacoes)
+        val adapterMovimento = AdapterMovimentacao(movimentacoes);
 
         //configurar o recycleview
         recyclerViewMovimentacoes.layoutManager = LinearLayoutManager(this);
@@ -74,6 +77,7 @@ class PrincipalActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart();
         recuperarResumo();
+        recuperarMovimento();
     }
 
     override fun onStop() {
@@ -113,9 +117,17 @@ class PrincipalActivity : AppCompatActivity() {
     private fun configurarCalendarView() {
         val mes = arrayOf<CharSequence>("Janeiro","Feveriro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro");
         calendarView.setTitleMonths(mes);
-        
+
+        //Recupera da data atual do CalendarView
+        val calendarDay = calendarView.currentDate;
+
+        dataSelecionada = DateCustom.dataFormatadada(calendarDay.date, "MMyyyy");
+
+        //Recupera a data quando alterada.
         calendarView.setOnMonthChangedListener(OnMonthChangedListener { widget, date ->
-            Log.w("DATA", date.toString());
+
+            dataSelecionada = DateCustom.dataFormatadada(date.calendar.time, "MMyyyy");
+            recuperarMovimento();
         })
     }
 
@@ -145,6 +157,37 @@ class PrincipalActivity : AppCompatActivity() {
                     TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
                 }
             })
+
+    }
+
+    private fun recuperarMovimento() {
+        dataBase = FireBaseConfig.reference
+            .child(Movimentacao.PATH)
+            .child(Usuario.getIdUsuario())
+            .child(dataSelecionada);
+
+
+        movimentoEventListener = dataBase.addValueEventListener(object : ValueEventListener{
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                movimentacoes.clear();//Garantir q a Lista esteja vazia
+
+                dataSnapshot.children.forEach { dataSnapshot ->
+                    var movimentacao: Movimentacao = Movimentacao();
+                    movimentacao = dataSnapshot.getValue<Movimentacao>(Movimentacao::class.java)!!;
+
+                    movimentacoes.add(movimentacao);
+
+                }
+                //
+                recyclerViewMovimentacoes.adapter!!.notifyDataSetChanged();
+
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+        })
 
     }
 }

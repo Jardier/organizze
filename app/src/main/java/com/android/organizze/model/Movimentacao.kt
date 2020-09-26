@@ -3,14 +3,15 @@ package com.android.organizze.model
 import android.util.Log
 import com.android.organizze.config.FireBaseConfig
 import com.android.organizze.helper.DateCustom
+import java.io.Serializable
 
-class Movimentacao constructor(
+class Movimentacao constructor (
       var data : String = ""
     , var categoria : String = ""
     , var descricao : String = ""
     , var tipo : String = ""
-    , var valor : Double
-) {
+    , var valor : Double = 0.0
+) : Serializable {
 
     companion object{
         const val DESPESA = "DESPESA";
