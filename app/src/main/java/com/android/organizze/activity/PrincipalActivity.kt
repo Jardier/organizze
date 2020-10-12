@@ -160,7 +160,7 @@ class PrincipalActivity : AppCompatActivity() {
                 }
 
                 override fun onCancelled(databaseError: DatabaseError) {
-                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                    Log.i("Evento", "Cancelado evento");
                 }
             })
 
