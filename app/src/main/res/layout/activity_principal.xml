@@ -27,11 +27,12 @@
     <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/fab"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="103dp"
         android:layout_gravity="end|bottom"
         android:layout_margin="10dp"
         app:menu_colorNormal="@color/colorAccent"
         app:menu_colorPressed="@color/colorAccent"
+        app:menu_fab_size="mini"
         fab:menu_icon="@drawable/ic_adicionar_branco_24dp">
 
         <com.github.clans.fab.FloatingActionButton
